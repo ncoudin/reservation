@@ -2,14 +2,18 @@
 include('connexion.php');
 
 class utilisateur {
-	var $pseudo;
-	var $mdp;
-	var $admin;
+	public $pseudo;
+	public $mdp;
+	public $admin;
 
-	function utilisateur($pseudo, $mdp, $admin) {
-		$this->pseudo=$pseudo;
-		$this->mdp=$mdp;
-		$this->admin=$admin;
+/*	function utilisateur($pseudo=null, $mdp=null, $admin=null) {
+		if($pseudo!=null)$this->pseudo=$pseudo;
+		if($mdp!=null)$this->mdp=$mdp;
+		if($admin!=null)$this->admin=$admin;
+	}*/
+
+	function saveUtilisateur($bdd) {
+		$bdd->exec("UPDATE utilisateur SET mdp='$this->mdp', admin=$this->admin where pseudo='$this->pseudo'");
 	}
 
 	function insUtilisateur($bdd) {
@@ -19,8 +23,13 @@ class utilisateur {
 		$bdd->exec("DELETE FROM utilisateur where pseudo='$this->pseudo'");
 	}
 
+	function reqUtilisateur($bdd,$req) {
+		$req=$bdd->query($req);
+		$req->setFetchMode(PDO::FETCH_CLASS, 'utilisateur');
+		$res=$req->fetchAll();
+		return $res;
+	}
+
 }
 
-$utilisateur = new utilisateur('testpseudo','testmdp',0);
-$utilisateur->delUtilisateur($bdd);
 ?>
