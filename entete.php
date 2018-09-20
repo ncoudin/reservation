@@ -1,6 +1,40 @@
 <?php
+include('class.php');
 session_start();
-echo"<head>
-		<title>Réservation</title>
-	 </head>";
 ?>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Réservation</title>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+
+    <ul class="nav navbar-nav">
+      <li><a href="index.php">Accueil</a></li>
+      <li><a href="reserver.php">Réserver</a></li>
+      <li><a href="place.php">Vos places</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+<?php
+	if(isset($_SESSION['utilisateur'])) {
+		$utilisateur=$_SESSION['utilisateur'];
+		echo"<li><a href=''><span class='glyphicon glyphicon-user'></span> $utilisateur->pseudo</a></li>
+		 <li><form class='navbar-form navbar-left' method='post' action='traitement.php'><input class='btn btn-default' type='submit' name='choix' value='Se déconnecter'/></form></li>";
+	}
+	else
+	echo"<li><a href='creer.php'><span class='glyphicon glyphicon-user'></span> Créer un compte</a></li>
+		 <li><form class='navbar-form navbar-left' method='post' action='traitement.php'>
+		 <div class='form-group'>
+		 <input type='text' class='form-control' placeholder='Pseudo' name='pseudo'/>
+		 <input type='password' class='form-control' placeholder='Mot de passe' name='mdp'/>
+		 </div>
+		 <input class='btn btn-default' type='submit' name='choix' value='Se connecter'/></form></li>";
+?>
+    </ul>
+  </div>
+</nav>
