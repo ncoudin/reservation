@@ -61,24 +61,28 @@ class vol {
 	public $aeroport2;
 	public $dateDepart;
 	public $dateArrivee;
+	public $prix;
 
-	function vol($refVol=null, $avion=null, $aeroport1=null, $aeroport2=null, $dateDepart=null, $dateArrivee=null) {
+	function vol($refVol=null, $avion=null, $aeroport1=null, $aeroport2=null, $dateDepart=null, $dateArrivee=null, $prix=null) {
 		if($refVol!=null)$this->refVol=$refVol;
 		if($avion!=null)$this->avion=$avion;
 		if($aeroport1!=null)$this->aeroport1=$aeroport1;
 		if($aeroport2!=null)$this->aeroport2=$aeroport2;
 		if($dateDepart!=null)$this->dateDepart=$dateDepart;		
 		if($dateArrivee!=null)$this->dateArrivee=$dateArrivee;
+		if($prix!=null)$this->prix=$prix;
 	}
 }
 
 class reservation {
 	public $utilisateur;
 	public $vol;
+	public $placeReserve;
 
-	function reservation($utilisateur=null, $vol=null) {
+	function reservation($utilisateur=null, $vol=null, $placeReserve=null) {
 		if($utilisateur!=null)$this->utilisateur=$utilisateur;
 		if($vol!=null)$this->vol=$vol;
+		if($placeReserve!=null)$this->placeReserve=$placeReserve;
 	}
 }
 
