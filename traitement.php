@@ -116,6 +116,16 @@ if(isset($_POST['choix']))
 		$user->majUtilisateur($bdd);
 		header('Location: gestion_utilisateur.php');
 		exit();
+	break;
+
+	case 'ModifierVol':
+		$dateDepart =  str_replace('T', ' ', $_POST['dateDepart']);
+		$dateArrivee =  str_replace('T', ' ', $_POST['dateArrivee']);
+		$vol = new vol($_POST['refVol'],$_POST['avion'],$_POST['aeroport1'],$_POST['aeroport2'],$dateDepart,$dateArrivee,$_POST['prix']);
+		$vol->majVol($bdd);
+		header('Location: gestion_vol.php');
+		exit();
+	break;
 	}
 }
 

@@ -86,6 +86,10 @@ class vol {
 		if($dateArrivee!=null)$this->dateArrivee=$dateArrivee;
 		if($prix!=null)$this->prix=$prix;
 	}
+
+	function majVol($bdd) {
+		$bdd->exec("UPDATE vol SET avion='$this->avion', aeroport1='$this->aeroport1', aeroport2='$this->aeroport2', dateDepart='$this->dateDepart', dateArrivee='$this->dateArrivee', prix='$this->prix' where refVol='$this->refVol'");
+	}
 }
 
 class reservation {
