@@ -1,16 +1,11 @@
-insert into utilisateur values('roger','aaa',1),
-							  ('gerard','123',0);
+insert into utilisateur values('roger','roger','dupont','7 rue Oui',77777,'azoiko@akjek.iaz','aaa',1);
+insert into utilisateur (pseudo,mdp) values('gerard','123');
 
 insert into typeavion values(1,'A380',500),
 							(2,'A320',400);
 
-insert into avion values('16674',1),
-						('98573',2);
+insert into avion(typeavion) values(1),(2),(1);
 
-insert into aeroport values('1','Charles de Gaulle'),
-						   ('2','Orly'),
-						   ('3','Lyon');
+insert into aeroport(nomAeroport) values('Charles de Gaulle'),('Orly'),('Lyon'),('Dubai');
 
-insert into vol values('A23','16674','1','2','2018-09-28 07:00:00','2018-09-28 09:00:00',199.99),
-					  ('B1','98573','1','3','2018-10-15 12:00:00','2018-10-15 15:00:00',150),
-					  ('C3','16674','2','3','2018-10-05 20:00:00','2018-10-05 22:30:00',300.01);
+insert into vol(avion,aeroport1,aeroport2,dateDepart,dateArrivee,prix) values (1,1,2,'2018-11-06 17:00:00','2018-11-06 20:00:00',120.55);

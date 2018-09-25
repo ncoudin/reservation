@@ -14,24 +14,15 @@ echo"<table class='table'>
 	 		</tr>
 	 	</thead>
 	 	<tbody>";
-
-$req=$bdd->query("SELECT * FROM vol");
-$req->setFetchMode(PDO::FETCH_CLASS,'vol');
-$vols=$req->fetchAll();
+$vols=getVols($bdd->query("SELECT * FROM vol"));
 foreach($vols as $vol) {
-	$req=$bdd->query("SELECT numType, nomType, nbSiege FROM typeAvion, avion WHERE typeAvion = numType AND refAvion='$vol->avion'");
-	$req->setFetchMode(PDO::FETCH_CLASS,'typeAvion');
-	$typeAvion=$req->fetch();
+	$typeAvion=getTypeAvion($bdd->query("SELECT numType, nomType, nbSiege FROM typeAvion, avion WHERE typeAvion = numType AND refAvion='$vol->avion'"));
 	$dateDepart = new DateTime($vol->dateDepart);
 	$dateDepart = $dateDepart->format('d/m/Y à H:i');
 	$dateArrivee = new DateTime($vol->dateArrivee);
 	$dateArrivee = $dateArrivee->format('d/m/Y à H:i');
-	$req=$bdd->query("SELECT * FROM aeroport WHERE refAeroport='$vol->aeroport1'");
-	$req->setFetchMode(PDO::FETCH_CLASS,'aeroport');
-	$aeroport1=$req->fetch();
-	$req=$bdd->query("SELECT * FROM aeroport WHERE refAeroport='$vol->aeroport2'");
-	$req->setFetchMode(PDO::FETCH_CLASS,'aeroport');
-	$aeroport2=$req->fetch();
+	$aeroport1=getAeroport($bdd->query("SELECT * FROM aeroport WHERE refAeroport='$vol->aeroport1'"));
+	$aeroport2=getAeroport($bdd->query("SELECT * FROM aeroport WHERE refAeroport='$vol->aeroport2'"));
 	echo"<tr>
 			<form method='post' action='traitement.php'>
 				<input type='hidden' name='refVol' value='$vol->refVol'/>

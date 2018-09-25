@@ -1,23 +1,37 @@
 <?php
 class utilisateur {
 	public $pseudo;
+	public $nom;
+	public $prenom;
+	public $rue;
+	public $cp;
+	public $email;
 	public $mdp;
 	public $admin;
 
-	function utilisateur($pseudo=null, $mdp=null, $admin=null) {
+	function utilisateur($pseudo=null, $nom=null, $prenom=null, $rue=null, $cp=null, $email=null ,$mdp=null, $admin=null) {
 		if($pseudo!=null)$this->pseudo=$pseudo;
+		if($nom!=null)$this->nom=$nom;
+		if($prenom!=null)$this->prenom=$prenom;
+		if($rue!=null)$this->rue=$rue;
+		if($cp!=null)$this->cp=$cp;
+		if($email!=null)$this->email=$email;
 		if($mdp!=null)$this->mdp=$mdp;
 		if($admin!=null)$this->admin=$admin;
 	}
 
-	function saveUtilisateur($bdd) {
-		$bdd->exec("UPDATE utilisateur SET mdp='$this->mdp', admin=$this->admin where pseudo='$this->pseudo'");
+	function majUtilisateur($bdd) {
+		if($this->cp==null)
+			$this->cp='null';
+		$bdd->exec("UPDATE utilisateur SET nom='$this->nom', prenom='$this->prenom', rue='$this->rue', cp=$this->cp, email='$this->email', mdp='$this->mdp', admin=$this->admin where pseudo='$this->pseudo'");
 	}
 
-	function insUtilisateur($bdd) {
-		$bdd->query("INSERT INTO utilisateur values('$this->pseudo', '$this->mdp', $this->admin)");
+	function insererUtilisateur($bdd) {
+		if($this->cp==null)
+			$this->cp='null';
+		$bdd->query("INSERT INTO utilisateur values('$this->pseudo', '$this->nom', '$this->prenom', '$this->rue', $this->cp, '$this->email', '$this->mdp', $this->admin)");
 	}
-	function delUtilisateur($bdd) {
+	function supprimerUtilisateur($bdd) {
 		$bdd->exec("DELETE FROM utilisateur where pseudo='$this->pseudo'");
 	}
 }
@@ -84,6 +98,94 @@ class reservation {
 		if($vol!=null)$this->vol=$vol;
 		if($placeReserve!=null)$this->placeReserve=$placeReserve;
 	}
+
+	function majReservation($bdd) {
+		$bdd->exec("UPDATE reservation SET placeReserve=$this->placeReserve WHERE utilisateur='$this->utilisateur' AND vol='$this->vol'");
+	}
+
+	function insererReservation($bdd) {
+		$bdd->exec("INSERT INTO reservation values('$this->utilisateur','$this->vol',$this->placeReserve)");
+	}
+
+	function supprimerReservation($bdd) {
+		$bdd->exec("DELETE FROM reservation WHERE vol='$this->vol' AND utilisateur='$this->utilisateur'");
+	}
+}
+
+
+
+
+
+
+function getUtilisateur($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'utilisateur');
+	return $req->fetch();
+}
+
+function getTypeAvion($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'typeAvion');
+	return $req->fetch();
+}
+
+function getAvion($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'avion');
+	return $req->fetch();
+}
+
+function getAeroport($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'aeroport');
+	return $req->fetch();
+}
+
+function getVol($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'vol');
+	return $vol=$req->fetch();
+}
+
+function getReservation($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'reservation');
+	return $req->fetch();
+
+}
+
+
+
+
+
+function getUtilisateurs($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'utilisateur');
+	return $req->fetchAll();
+}
+
+function getAvions($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'avion');
+	return $req->fetchAll();
+}
+
+function getAeroports($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'aeroport');
+	return $req->fetchAll();
+}
+
+function getReservations($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'reservation');
+	return $req->fetchAll();
+}
+
+function getVols($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'vol');
+	return $vol=$req->fetchAll();
 }
 
 ?>

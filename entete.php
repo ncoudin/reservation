@@ -18,22 +18,28 @@ session_start();
       <li><a href="index.php">Accueil</a></li>
       <li><a href="reserver.php">Réserver</a></li>
       <li><a href="place.php">Vos places</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
+
 <?php
 	if(isset($_SESSION['utilisateur'])) {
 		$utilisateur=$_SESSION['utilisateur'];
-		echo"<li><a href=''><span class='glyphicon glyphicon-user'></span> $utilisateur->pseudo</a></li>
-		 <li><form class='navbar-form navbar-left' method='post' action='traitement.php'><input class='btn btn-default' type='submit' name='choix' value='Se déconnecter'/></form></li>";
+		if($utilisateur->admin==1)
+		echo"<li><a href='gestion_utilisateur.php'>Gestion des utilisateurs</a></li>
+			 <li><a href='gestion_vol.php'>Gestion des vols</a></li>";
+		echo"</ul>
+	    	 <ul class='nav navbar-nav navbar-right'>
+		    	 <li><a href=''><span class='glyphicon glyphicon-user'></span> $utilisateur->pseudo</a></li>
+				 <li><form class='navbar-form navbar-left' method='post' action='traitement.php'><input class='btn btn-default' type='submit' name='choix' value='Se déconnecter'/></form></li>";
 	}
 	else
-	echo"<li><a href='creer.php'><span class='glyphicon glyphicon-user'></span> Créer un compte</a></li>
-		 <li><form class='navbar-form navbar-left' method='post' action='traitement.php'>
-		 <div class='form-group'>
-		 <input type='text' class='form-control' placeholder='Pseudo' name='pseudo'/>
-		 <input type='password' class='form-control' placeholder='Mot de passe' name='mdp'/>
-		 </div>
-		 <input class='btn btn-default' type='submit' name='choix' value='Se connecter'/></form></li>";
+		echo"</ul>
+	    	 <ul class='nav navbar-nav navbar-right'>
+				 <li><a href='creer.php'><span class='glyphicon glyphicon-user'></span> Créer un compte</a></li>
+				 <li><form class='navbar-form navbar-left' method='post' action='traitement.php'>
+				 <div class='form-group'>
+					 <input type='text' class='form-control' placeholder='Pseudo' name='pseudo'/>
+					 <input type='password' class='form-control' placeholder='Mot de passe' name='mdp'/>
+				 </div>
+				 <input class='btn btn-default' type='submit' name='choix' value='Se connecter'/></form></li>";
 ?>
     </ul>
   </div>

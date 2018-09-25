@@ -10,10 +10,9 @@ if(isset($_POST['choix']))
 		$pseudo=$_POST['pseudo'];
 		$mdp=$_POST['mdp'];
 		$req=$bdd->query("select * from utilisateur where pseudo='$pseudo' and mdp='$mdp'");
-		if($req->rowCount()>0)
+		if($req->rowCount()==1)
 		{
-			$req->setFetchMode(PDO::FETCH_CLASS,'utilisateur');
-			$utilisateur=$req->fetch();
+			$utilisateur=getUtilisateur($req);
 			$_SESSION['utilisateur']=$utilisateur;
 			header('Location: index.php');
   			exit();
@@ -30,39 +29,38 @@ if(isset($_POST['choix']))
 
 	case 'Créer':
 		$pseudo=$_POST['pseudo'];
+		$nom=$_POST['nom'];
+		$prenom=$_POST['prenom'];
+		$rue=$_POST['rue'];
+		$cp=$_POST['cp'];
+		$email=$_POST['email'];
 		$mdp=$_POST['mdp'];
 		$req=$bdd->query("select * from utilisateur where pseudo='$pseudo'");
 		if($req->rowCount()>0)
 			echo "<p>Impossible de créer un compte, le pseudo est déjà pris ! <a href='creer.php'>Retour</a></p>";
 		else
 		{
-			$req=$bdd->query("INSERT INTO utilisateur(pseudo,mdp) values('$pseudo','$mdp')");
-			echo "<p> Compte créé avec succès ! <a href='index.php>Retour</a></p>";
+			$utilisateur=new utilisateur($pseudo, $nom, $prenom, $rue, $cp, $email, $mdp, '0');
+			$utilisateur->insererUtilisateur($bdd);
+			echo "<p> Compte créé avec succès ! <a href='index.php'>Retour</a></p>";
 		}
 
 	break;
 
 	case 'Réserver':
+		echo"<h2>Confirmation d'achat</h2>";
 		if(isset($_SESSION['utilisateur'])) {
 			$refVol=$_POST['refVol'];
 			$siegeReserve=$_POST['siegeReserve'];
-			$req=$bdd->query("SELECT * FROM vol WHERE refVol='$refVol'");
-			$req->setFetchMode(PDO::FETCH_CLASS,'vol');
-			$vol=$req->fetch();
-			$prix=$vol->prix;
-			$req=$bdd->query("SELECT numType, nomType, nbSiege FROM typeAvion, avion WHERE typeAvion = numType AND refAvion='$vol->avion'");
-			$req->setFetchMode(PDO::FETCH_CLASS,'typeAvion');
-			$typeAvion=$req->fetch();
+			$vol=getVol($bdd->query("SELECT * FROM vol WHERE refVol='$refVol'"));
+			$typeAvion=getTypeAvion($bdd->query("SELECT numType, nomType, nbSiege FROM typeAvion, avion WHERE typeAvion = numType AND refAvion='$vol->avion'"));
+			$aeroport1=getAeroport($bdd->query("SELECT * FROM aeroport WHERE refAeroport='$vol->aeroport1'"));
+			$aeroport2=getAeroport($bdd->query("SELECT * FROM aeroport WHERE refAeroport='$vol->aeroport2'"));
 			$dateDepart = new DateTime($vol->dateDepart);
 			$dateDepart = $dateDepart->format('d/m/Y à H:i');
 			$dateArrivee = new DateTime($vol->dateArrivee);
 			$dateArrivee = $dateArrivee->format('d/m/Y à H:i');
-			$req=$bdd->query("SELECT * FROM aeroport WHERE refAeroport='$vol->aeroport1'");
-			$req->setFetchMode(PDO::FETCH_CLASS,'aeroport');
-			$aeroport1=$req->fetch();
-			$req=$bdd->query("SELECT * FROM aeroport WHERE refAeroport='$vol->aeroport2'");
-			$req->setFetchMode(PDO::FETCH_CLASS,'aeroport');
-			$aeroport2=$req->fetch();
+			$prix=$vol->prix;
 			$total=$prix*$siegeReserve;
 			echo"<table class='table'>
 					<form method='post' action='traitement.php'><input type='hidden' name='refVol' value='$refVol'/><input type='hidden' name='siegeReserve' value='$siegeReserve'/>
@@ -92,14 +90,13 @@ if(isset($_POST['choix']))
 		$utilisateur=$_SESSION['utilisateur'];
 		$req=$bdd->query("SELECT * FROM reservation WHERE utilisateur='$utilisateur->pseudo' AND vol='$refVol'");
 		if($req->rowCount()>0) {
-			$req->setFetchMode(PDO::FETCH_CLASS,'reservation');
-			$reservation=$req->fetch();
+			$reservation=getReservation($req);
 			$reservation->placeReserve+=$siegeReserve;
-			$bdd->exec("UPDATE reservation SET placeReserve=$reservation->placeReserve");
+			$reservation->majReservation($bdd);
 		}
 		else {
 		$reservation = new reservation($utilisateur->pseudo,$refVol,$siegeReserve);
-		$req=$bdd->query("INSERT INTO reservation values('$reservation->utilisateur','$reservation->vol',$reservation->placeReserve)");
+		$reservation->insererReservation($bdd);
 		}
 		header('Location: place.php');
   		exit();
@@ -107,10 +104,18 @@ if(isset($_POST['choix']))
 
 	case 'Annuler achat':
 		$refVol=$_POST['refVol'];
-		$bdd->exec("DELETE FROM reservation WHERE vol='$refVol' AND utilisateur='$utilisateur->pseudo'");
+		$reservation=getReservation($bdd->query("SELECT * FROM reservation WHERE vol='$refVol' AND utilisateur='$utilisateur->pseudo'"));
+		$reservation->supprimerReservation($bdd);
 		header('Location: place.php');
   		exit();
 	break;
+
+	case 'ModifierUtilisateur':
+		$user = new utilisateur($_POST['pseudo'], $_POST['nom'], $_POST['prenom'], $_POST['rue'], $_POST['cp'], $_POST['email'], $_POST['mdp'], '0');
+		var_dump($user);
+		$user->majUtilisateur($bdd);
+		header('Location: gestion_utilisateur.php');
+		exit();
 	}
 }
 
