@@ -90,6 +90,14 @@ class vol {
 	function majVol($bdd) {
 		$bdd->exec("UPDATE vol SET avion='$this->avion', aeroport1='$this->aeroport1', aeroport2='$this->aeroport2', dateDepart='$this->dateDepart', dateArrivee='$this->dateArrivee', prix='$this->prix' where refVol='$this->refVol'");
 	}
+
+	function supprimerVol($bdd) {
+		$bdd->exec("DELETE FROM vol WHERE refVol='$this->refVol'");
+	}
+
+	function insererVol($bdd) {
+		$bdd->exec("INSERT INTO vol(avion, aeroport1, aeroport2, dateDepart, dateArrivee, prix) values ('$this->avion','$this->aeroport1','$this->aeroport2', '$this->dateDepart', '$this->dateArrivee', '$this->prix')");
+	}
 }
 
 class reservation {

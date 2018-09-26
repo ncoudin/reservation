@@ -3,14 +3,14 @@ include('connexion.php');
 include('entete.php');
 ?>
 <body>
-<h2>Vos places</h2><br/>
+<h2 style='padding-left:5px;'>Vos places</h2><br/>
 
 <?php
 if(isset($_SESSION['utilisateur']))
 {
 	$req=$bdd->query("SELECT * FROM reservation WHERE utilisateur='$utilisateur->pseudo'");
 	if($req->rowCount()==0)
-		echo "<p>Vous n'avez aucune place de réservée :(</p>";
+		echo "<p style='padding-left:5px'>Vous n'avez aucune place de réservée ! <a href='reserver.php'>Réserver</a></p>";
 	else {
 		$reservations=getReservations($req);
 		foreach($reservations as $reservation) {
@@ -45,6 +45,6 @@ if(isset($_SESSION['utilisateur']))
 	}
 }
 else
-	echo"<p>Veuillez vous connecter !</p>";
+	echo"<p style='padding-left:5px'>Veuillez vous connecter !</p>";
 ?>
 </body>

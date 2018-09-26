@@ -18,7 +18,7 @@ if(isset($_POST['choix']))
   			exit();
 		}
 		else
-			echo"<p> Pseudo ou mot de passe invalide ! <a href='index.php'>Retour à l'accueil</a></p>";
+			echo"<p style='padding-left:5px'> Pseudo ou mot de passe invalide ! <a href='index.php'>Retour à l'accueil</a></p>";
 	break;
 
 	case 'Se déconnecter':
@@ -42,7 +42,7 @@ if(isset($_POST['choix']))
 		{
 			$utilisateur=new utilisateur($pseudo, $nom, $prenom, $rue, $cp, $email, $mdp, '0');
 			$utilisateur->insererUtilisateur($bdd);
-			echo "<p> Compte créé avec succès ! <a href='index.php'>Retour</a></p>";
+			echo "<p style='padding-left:5px'> Compte créé avec succès ! <a href='index.php'>Retour</a></p>";
 		}
 
 	break;
@@ -81,7 +81,7 @@ if(isset($_POST['choix']))
 					";
 		}
 		else
-			echo"Veuillez vous connecter !";
+			echo"<p style='padding-left:5px'> Veuillez vous connecter !</p>";
 	break;
 
 	case 'Confirmer achat':
@@ -110,22 +110,61 @@ if(isset($_POST['choix']))
   		exit();
 	break;
 
+	case 'CreerUtilisateur' :
+		$user = new utilisateur($_POST['pseudo'], $_POST['nom'], $_POST['prenom'], $_POST['rue'], $_POST['cp'], $_POST['email'], $_POST['mdp'], '0');
+		$user->insererUtilisateur($bdd);
+		header('Location: gestion_utilisateur.php');
+		exit();
+	break;
+
 	case 'ModifierUtilisateur':
 		$user = new utilisateur($_POST['pseudo'], $_POST['nom'], $_POST['prenom'], $_POST['rue'], $_POST['cp'], $_POST['email'], $_POST['mdp'], '0');
-		var_dump($user);
 		$user->majUtilisateur($bdd);
 		header('Location: gestion_utilisateur.php');
 		exit();
 	break;
 
-	case 'ModifierVol':
+	case 'SupprimerUtilisateur':
+		$user = new utilisateur($_POST['pseudo'], $_POST['nom'], $_POST['prenom'], $_POST['rue'], $_POST['cp'], $_POST['email'], $_POST['mdp'], '0');
+		$user->supprimerUtilisateur($bdd);
+		header('Location: gestion_utilisateur.php');
+		exit();
+	break;
+
+	case 'CreerVol':
 		$dateDepart =  str_replace('T', ' ', $_POST['dateDepart']);
 		$dateArrivee =  str_replace('T', ' ', $_POST['dateArrivee']);
+		$vol = new vol('null',$_POST['avion'],$_POST['aeroport1'],$_POST['aeroport2'],$dateDepart,$dateArrivee,$_POST['prix']);
+		$vol->insererVol($bdd);
+		header('Location: gestion_vol.php');
+		exit();
+	break;
+
+	case 'ModifierVol':
+
+		$dateDepart =  str_replace('T', ' ', $_POST['dateDepart']);
+		$dateArrivee =  str_replace('T', ' ', $_POST['dateArrivee']);
+		if($dateDepart>$dateArrivee) {
+			header('Location: gestion_vol.php');
+			exit(); }
+		if($_POST['aeroport1']==$_POST['aeroport2']) {
+			header('Location: gestion_vol.php');
+			exit(); }
 		$vol = new vol($_POST['refVol'],$_POST['avion'],$_POST['aeroport1'],$_POST['aeroport2'],$dateDepart,$dateArrivee,$_POST['prix']);
 		$vol->majVol($bdd);
 		header('Location: gestion_vol.php');
 		exit();
 	break;
+
+	case 'SupprimerVol':
+		$dateDepart =  str_replace('T', ' ', $_POST['dateDepart']);
+		$dateArrivee =  str_replace('T', ' ', $_POST['dateArrivee']);
+		$vol = new vol($_POST['refVol'],$_POST['avion'],$_POST['aeroport1'],$_POST['aeroport2'],$dateDepart,$dateArrivee,$_POST['prix']);
+		$vol->supprimerVol($bdd);
+		header('Location: gestion_vol.php');
+		exit();
+	break;
+
 	}
 }
 

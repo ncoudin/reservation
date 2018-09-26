@@ -13,7 +13,7 @@ session_start();
 	<title>Réservation</title>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
-
+  	<h2 style='text-align:center;'>Réservation</h2>
     <ul class="nav navbar-nav">
       <li><a href="index.php">Accueil</a></li>
       <li><a href="reserver.php">Réserver</a></li>

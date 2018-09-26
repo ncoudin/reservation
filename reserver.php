@@ -2,9 +2,11 @@
 include('connexion.php');
 include('entete.php');
 ?>
-<h2>Réserver</h2><br/>
+<h2 style='padding-left:5px;'>Réserver</h2><br/>
 <?php
-echo"<table class='table'>
+echo"<div class='panel panel-default'>
+		<div class='panel-heading'>Vols organisés</div>
+	 <table class='table'>
 	 	<thead>
 	 		<tr>
 	 			<td>Modèle</td>
