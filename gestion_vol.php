@@ -9,7 +9,7 @@ if(isset($_SESSION['utilisateur'])) {
 	if($utilisateur->admin == 1) {
 		echo"<div class='panel panel-default'>
 		<div class='panel-heading'>Table de gestion des vols</div>
-		<table class='table'>
+		<table class='table' style='width:auto;'>
 			 	<thead>
 			 		<tr>
 				 		<td><b>Vol n°</b></td>
@@ -33,7 +33,7 @@ if(isset($_SESSION['utilisateur'])) {
 					<form method='post' action='traitement.php'>
 					 	<td><input type='hidden' name='refVol' value='$vol->refVol'/>$vol->refVol</td>
 					 	<td><select name='avion'>";
-			$avions=getAvions($bdd->query("SELECT * FROM avion"));
+			$avions=getAvions($bdd->query("SELECT * FROM avion ORDER BY refAvion"));
 			foreach($avions as $avion) {
 				$typeAvion=getTypeAvion($bdd->query("SELECT * FROM typeAvion WHERE numType='$avion->typeAvion'"));
 				echo"<option value='$avion->refAvion' ";
@@ -78,7 +78,7 @@ if(isset($_SESSION['utilisateur'])) {
 			echo"<form method='post' action='traitement.php'><tr>
 			 			<td style='margin:5px;background-color:lightgrey;'></td>
 			 			<td><select name='avion'><option></option>";
-			$avions=getAvions($bdd->query("SELECT * FROM avion"));
+			$avions=getAvions($bdd->query("SELECT * FROM avion ORDER BY refAvion"));
 			foreach($avions as $avion) {
 				$typeAvion=getTypeAvion($bdd->query("SELECT * FROM typeAvion WHERE numType='$avion->typeAvion'"));
 				echo"<option value='$avion->refAvion'>$avion->refAvion modèle $typeAvion->nomType</option>";

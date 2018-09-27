@@ -56,6 +56,18 @@ class avion {
 		if($refAvion!=null)$this->refAvion=$refAvion;
 		if($typeAvion!=null)$this->typeAvion=$typeAvion;
 	}
+
+	function majAvion($bdd) {
+		$bdd->exec("UPDATE avion SET typeAvion='$this->typeAvion'");
+	}
+
+	function insererAvion($bdd) {
+		$bdd->exec("INSERT INTO avion(typeAvion) values('$this->typeAvion')");
+	}
+
+	function supprimerAvion($bdd) {
+		$bdd->exec("DELETE FROM avion WHERE refAvion='$this->refAvion'");
+	}
 }
 
 class aeroport {
@@ -65,6 +77,18 @@ class aeroport {
 	function aeroport($refAeroport=null, $nomAeroport=null) {
 		if($refAeroport!=null)$this->refAeroport=$refAeroport;
 		if($nomAeroport!=null)$this->nomAeroport=$nomAeroport;
+	}
+
+	function majAeroport($bdd) {
+		$bdd->exec("UPDATE aeroport SET nomAeroport='$this->nomAeroport'");
+	}
+
+	function insererAeroport($bdd) {
+		$bdd->exec("INSERT INTO aeroport(nomAeroport) values('$this->nomAeroport')");
+	}
+
+	function supprimerAeroport($bdd) {
+		$bdd->exec("DELETE FROM aeroport WHERE refAeroport='$this->refAeroport'");
 	}
 }
 
@@ -176,6 +200,12 @@ function getUtilisateurs($req)
 	return $req->fetchAll();
 }
 
+function getTypeAvions($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'typeAvion');
+	return $req->fetchAll();
+}
+
 function getAvions($req)
 {
 	$req->setFetchMode(PDO::FETCH_CLASS,'avion');
@@ -188,16 +218,16 @@ function getAeroports($req)
 	return $req->fetchAll();
 }
 
-function getReservations($req)
-{
-	$req->setFetchMode(PDO::FETCH_CLASS,'reservation');
-	return $req->fetchAll();
-}
-
 function getVols($req)
 {
 	$req->setFetchMode(PDO::FETCH_CLASS,'vol');
 	return $vol=$req->fetchAll();
+}
+
+function getReservations($req)
+{
+	$req->setFetchMode(PDO::FETCH_CLASS,'reservation');
+	return $req->fetchAll();
 }
 
 ?>

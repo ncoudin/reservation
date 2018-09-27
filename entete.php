@@ -24,7 +24,9 @@ session_start();
 		$utilisateur=$_SESSION['utilisateur'];
 		if($utilisateur->admin==1)
 		echo"<li><a href='gestion_utilisateur.php'>Gestion des utilisateurs</a></li>
-			 <li><a href='gestion_vol.php'>Gestion des vols</a></li>";
+			 <li><a href='gestion_vol.php'>Gestion des vols</a></li>
+			 <li><a href='gestion_avion.php'>Gestion des avions</a></li>
+			 <li><a href='gestion_aeroport.php'>Gestion des aeroports</a></li>";
 		echo"</ul>
 	    	 <ul class='nav navbar-nav navbar-right'>
 		    	 <li><a href=''><span class='glyphicon glyphicon-user'></span> $utilisateur->pseudo</a></li>

@@ -165,6 +165,48 @@ if(isset($_POST['choix']))
 		exit();
 	break;
 
+	case 'CreerAvion':
+		$avion = new avion('null',$_POST['typeAvion']);
+		$avion->insererAvion($bdd);
+		header('Location: gestion_avion.php');
+		exit();
+	break;
+
+	case 'ModifierAvion':
+		$avion = new avion($_POST['refAvion'],$_POST['typeAvion']);
+		$avion->majAvion($bdd);
+		header('Location: gestion_avion.php');
+		exit();
+	break;
+	
+	case 'SupprimerAvion':
+		$avion = new avion($_POST['refAvion'],$_POST['typeAvion']);
+		$avion->supprimerAvion($bdd);
+		header('Location: gestion_avion.php');
+		exit();
+	break;
+	
+	case 'CreerAeroport':
+		$aeroport = new aeroport('null',$_POST['nomAeroport']);
+		$aeroport->insererAeroport($bdd);
+		header('Location: gestion_aeroport.php');
+		exit();
+	break;
+	
+	case 'ModifierAeroport':
+		$aeroport = new aeroport($_POST['refAeroport'],$_POST['nomAeroport']);
+		$aeroport->majAeroport($bdd);
+		header('Location: gestion_aeroport.php');
+		exit();
+	break;
+	
+	case 'SupprimerAeroport':
+		$aeroport = new aeroport($_POST['refAeroport'],$_POST['nomAeroport']);
+		$aeroport->supprimerAeroport($bdd);
+		header('Location: gestion_aeroport.php');
+		exit();
+	break;
+
 	}
 }
 

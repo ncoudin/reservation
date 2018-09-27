@@ -10,7 +10,7 @@ if(isset($_SESSION['utilisateur'])) {
 	if($utilisateur->admin == 1) {
 		echo"<div class='panel panel-default'>
 		<div class='panel-heading'>Table de gestion des utilisateurs</div>
-		<table class='table' style='width:100%;'>
+		<table class='table' style='width:auto;'>
 			 	<thead>
 			 		<tr>
 				 		<td><b>Pseudo</b></td>
@@ -36,8 +36,9 @@ if(isset($_SESSION['utilisateur'])) {
 					 	<td><button class='btn btn-default' type='submit' name='choix' value='ModifierUtilisateur'>Modifier</button></td>
 					 	<td><button class='btn btn-default' type='submit' name='choix' value='SupprimerUtilisateur'>Supprimer</button></td>
 					</form>
-				 </tr>
-				 <tr>
+				 </tr>";
+		}
+		echo"<tr>
 						<form method='post' action='traitement.php'>
 						 	<td><input type='text' name='pseudo'  required /></td>
 						 	<td><input type='text' name='nom' style='width:120px;'/></td>
@@ -48,9 +49,8 @@ if(isset($_SESSION['utilisateur'])) {
 						 	<td><input type='text' name='mdp' required /></td>
 						 	<td colspan='2'><button class='btn btn-default' type='submit' name='choix' value='CreerUtilisateur'>Creer</button></td>
 						</form>
-				 	</tr>";
-		}
-		echo"</table></div>";
+				 	</tr>
+			 </table></div>";
 
 
 
